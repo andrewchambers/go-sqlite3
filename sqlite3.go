@@ -60,7 +60,7 @@ package sqlite3
 
 #include <assert.h>
 #include <pthread.h>
-#include "sqlite3.h"
+#include "_sqlite3.h"
 
 // cgo doesn't handle variadic functions.
 static void set_temp_dir(const char *path) {

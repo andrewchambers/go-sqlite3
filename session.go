@@ -23,7 +23,7 @@
 package sqlite3
 
 /*
-#include "sqlite3.h"
+#include "_sqlite3.h"
 
 extern int strm_r_tramp(void*, char*, int*);
 extern int strm_w_tramp(void*, char*, int);
