@@ -13,7 +13,6 @@ import (
 	"os"
 	"reflect"
 	"runtime"
-	"strings"
 	"testing"
 	"time"
 	"unsafe"
@@ -45,7 +44,7 @@ func (t T) open(name string) *Conn {
 
 func (t T) close(c io.Closer) {
 	if c != nil {
-		if db, _ := c.(*Conn); db != nil {
+		if db, _ := c.(*Conn); db != nil && db.db != nil {
 			if path := db.FileName("main"); path != "" {
 				defer os.Remove(path)
 			}
@@ -197,16 +196,6 @@ func TestCreate(T *testing.T) {
 	if err := c.Exec(sql); err == nil {
 		t.Fatalf("c.Exec() expected an error")
 	}
-
-	// URI (existing)
-	uri := strings.NewReplacer("?", "%3f", "#", "%23").Replace(tmp)
-	if runtime.GOOS == "windows" {
-		uri = "/" + strings.Replace(uri, "\\", "/", -1)
-	}
-	c = t.open("file:" + uri)
-	defer t.close(c)
-	checkPath(c, "main", tmp)
-	t.exec(c, "INSERT INTO x VALUES(2)")
 
 	// Temporary (in-memory)
 	c = t.open(":memory:")

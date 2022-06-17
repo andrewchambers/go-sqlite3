@@ -29,7 +29,7 @@ Most database drivers include a layer to work nicely with the Go `database/sql` 
 ## Getting started
 
 ```go
-import "github.com/bvinc/go-sqlite3/sqlite3"
+import "github.com/andrewchambers/go-sqlite3"
 ```
 
 ### Acquiring a connection
@@ -199,21 +199,29 @@ func insertStudents(conn *sqlite3.Conn) error {
 }
 ```
 
+## Build tags
+
+Use the system sqlite3 library: 
+
+`go build -tags libsqlite3`
+
+Enable the json1 extension:
+
+`go build -tags json1sqlite3`
+
 ## Advanced Features
 * Binding parameters to statements using SQLite named parameters.
 * SQLite Blob Incremental IO API.
 * SQLite Online Backup API.
-* SQLite Session extension.
 * Supports setting a custom busy handler
 * Supports callback hooks on commit, rollback, and update.
 * Supports setting compile-Time authorization callbacks.
 * If shared cache mode is enabled and one statement receives a `SQLITE_LOCKED` error, the SQLite [unlock_notify](https://sqlite.org/unlock_notify.html) extension is used to transparently block and try again when the conflicting statement finishes.
-* Compiled with SQLite support for JSON1, RTREE, FTS5, GEOPOLY, STAT4, and SOUNDEX.
-* Compiled with SQLite support for OFFSET/LIMIT on UPDATE and DELETE statements.
 * RawString and RawBytes can be used to reduce copying between Go and SQLite.  Please use with caution.
 
 ## Credit
-This project began as a fork of https://github.com/mxk/go-sqlite/
+
+This project began as a fork of https://github.com/bvinc/go-sqlite-lite
 
 ## FAQ
 

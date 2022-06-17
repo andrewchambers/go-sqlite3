@@ -12,51 +12,41 @@ package sqlite3
 // SQLite compilation options.
 // https://www.sqlite.org/compile.html
 // https://www.sqlite.org/footprint.html
-#cgo CFLAGS: -std=gnu99
-#cgo CFLAGS: -Os
-#cgo CFLAGS: -DNDEBUG=1
-#cgo CFLAGS: -DSQLITE_CORE=1
-#cgo CFLAGS: -DSQLITE_ENABLE_API_ARMOR=1
-#cgo CFLAGS: -DSQLITE_ENABLE_FTS3=1
-#cgo CFLAGS: -DSQLITE_ENABLE_FTS3_PARENTHESIS=1
-#cgo CFLAGS: -DSQLITE_ENABLE_FTS4=1
-#cgo CFLAGS: -DSQLITE_ENABLE_FTS5=1
-#cgo CFLAGS: -DSQLITE_ENABLE_GEOPOLY=1
-#cgo CFLAGS: -DSQLITE_ENABLE_JSON1=1
-#cgo CFLAGS: -DSQLITE_ENABLE_PREUPDATE_HOOK
-#cgo CFLAGS: -DSQLITE_ENABLE_RTREE=1
-#cgo CFLAGS: -DSQLITE_ENABLE_SESSION
-#cgo CFLAGS: -DSQLITE_ENABLE_STAT4=1
-#cgo CFLAGS: -DSQLITE_ENABLE_UNLOCK_NOTIFY
-#cgo CFLAGS: -DSQLITE_ENABLE_UPDATE_DELETE_LIMIT=1
-#cgo CFLAGS: -DSQLITE_OMIT_AUTOINIT=1
-#cgo CFLAGS: -DSQLITE_OMIT_DEPRECATED=1
-#cgo CFLAGS: -DSQLITE_OMIT_PROGRESS_CALLBACK=1
-#cgo CFLAGS: -DSQLITE_OMIT_LOAD_EXTENSION=1
-#cgo CFLAGS: -DSQLITE_OMIT_TRACE=1
-#cgo CFLAGS: -DSQLITE_OMIT_UTF16=1
-#cgo CFLAGS: -DSQLITE_SOUNDEX=1
-#cgo CFLAGS: -DSQLITE_TEMP_STORE=2
-#cgo CFLAGS: -DSQLITE_THREADSAFE=2
-#cgo CFLAGS: -DSQLITE_USE_ALLOCA=1
-#cgo CFLAGS: -DSQLITE_USE_URI=1
+
 #cgo linux LDFLAGS: -lm
 #cgo openbsd LDFLAGS: -lm
 #cgo freebsd LDFLAGS: -lm
-
-#cgo linux,!android CFLAGS: -DHAVE_FDATASYNC=1
-#cgo linux,!android CFLAGS: -DHAVE_PREAD=1 -DHAVE_PWRITE=1
-#cgo darwin CFLAGS: -DHAVE_FDATASYNC=1
-#cgo darwin CFLAGS: -DHAVE_PREAD=1 -DHAVE_PWRITE=1
-
 #cgo windows LDFLAGS: -Wl,-Bstatic -lwinpthread -Wl,-Bdynamic
-
 // Fix for BusyTimeout on *nix systems.
 #cgo !windows CFLAGS: -DHAVE_USLEEP=1
-
-
 // Fix "_localtime32(0): not defined" linker error.
 #cgo windows,386 CFLAGS: -D_localtime32=localtime
+
+#cgo libsqlite3 CFLAGS: -DUSE_LIBSQLITE3=1
+#cgo libsqlite3 LDFLAGS: -lsqlite3
+
+#cgo !libsqlite3 CFLAGS: -DNDEBUG=1
+#cgo !libsqlite3 CFLAGS: -DSQLITE_CORE=1
+#cgo !libsqlite3 CFLAGS: -DSQLITE_ENABLE_API_ARMOR=1
+#cgo !libsqlite3 CFLAGS: -DSQLITE_ENABLE_PREUPDATE_HOOK=1
+#cgo !libsqlite3 CFLAGS: -DSQLITE_ENABLE_STAT4=1
+#cgo !libsqlite3 CFLAGS: -DSQLITE_ENABLE_UNLOCK_NOTIFY=1
+#cgo !libsqlite3 CFLAGS: -DSQLITE_ENABLE_UPDATE_DELETE_LIMIT=1
+#cgo !libsqlite3 CFLAGS: -DSQLITE_OMIT_AUTOINIT=1
+#cgo !libsqlite3 CFLAGS: -DSQLITE_OMIT_DEPRECATED=1
+#cgo !libsqlite3 CFLAGS: -DSQLITE_OMIT_PROGRESS_CALLBACK=1
+#cgo !libsqlite3 CFLAGS: -DSQLITE_OMIT_LOAD_EXTENSION=1
+#cgo !libsqlite3 CFLAGS: -DSQLITE_OMIT_TRACE=1
+#cgo !libsqlite3 CFLAGS: -DSQLITE_OMIT_UTF16=1
+#cgo !libsqlite3 CFLAGS: -DSQLITE_THREADSAFE=2
+#cgo !libsqlite3 CFLAGS: -DSQLITE_USE_ALLOCA=1
+#cgo !libsqlite3 CFLAGS: -DSQLITE_USE_URI=1
+#cgo !libsqlite3,linux,!android CFLAGS: -DHAVE_FDATASYNC=1
+#cgo !libsqlite3,linux,!android CFLAGS: -DHAVE_PREAD=1 -DHAVE_PWRITE=1
+#cgo !libsqlite3,darwin CFLAGS: -DHAVE_FDATASYNC=1
+#cgo !libsqlite3,darwin CFLAGS: -DHAVE_PREAD=1 -DHAVE_PWRITE=1
+
+#cgo !libsqlite3,json1sqlite3 CFLAGS: -DSQLITE_ENABLE_JSON1=1
 
 #include <assert.h>
 #include <pthread.h>
