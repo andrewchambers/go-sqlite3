@@ -829,7 +829,7 @@ func TestSchema(T *testing.T) {
 	t.step(s, true)
 
 	checkCols(s, "a")
-	checkDecls(s, "int")
+	checkDecls(s, "INT")
 	var a interface{}
 	t.scan(s, &a)
 	if a != int64(1) {
@@ -841,7 +841,7 @@ func TestSchema(T *testing.T) {
 	t.step(s, true)
 
 	checkCols(s, "a")
-	checkDecls(s, "int")
+	checkDecls(s, "INT")
 	t.scan(s, &a)
 	if a != int64(2) {
 		t.Fatal("Expected 2")
@@ -849,12 +849,12 @@ func TestSchema(T *testing.T) {
 	t.step(s, false)
 
 	checkCols(s, "a")
-	checkDecls(s, "int")
+	checkDecls(s, "INT")
 	t.reset(s)
 	t.step(s, true)
 
 	checkCols(s, "a", "b")
-	checkDecls(s, "int", "text")
+	checkDecls(s, "INT", "TEXT")
 	var b interface{}
 	t.scan(s, &a, &b)
 	if a != int64(1) {
@@ -866,7 +866,7 @@ func TestSchema(T *testing.T) {
 	t.step(s, true)
 
 	checkCols(s, "a", "b")
-	checkDecls(s, "int", "text")
+	checkDecls(s, "INT", "TEXT")
 	t.scan(s, &a, &b)
 	if a != int64(2) {
 		t.Fatal("Expected 2")
@@ -875,21 +875,6 @@ func TestSchema(T *testing.T) {
 		t.Fatal("Expected nil")
 	}
 	t.step(s, false)
-}
-
-func TestUpdateDeleteLimit(T *testing.T) {
-	t := begin(T)
-
-	c := t.open(":memory:")
-	defer t.close(c)
-	t.exec(c, "CREATE TABLE x(a INTEGER PRIMARY KEY)")
-	t.exec(c, "INSERT INTO x VALUES(?)", 1)
-	t.exec(c, "INSERT INTO x VALUES(?)", 2)
-	t.exec(c, "INSERT INTO x VALUES(?)", 3)
-	t.exec(c, "INSERT INTO x VALUES(?)", 4)
-	t.exec(c, "INSERT INTO x VALUES(?)", 5)
-	t.exec(c, "UPDATE x SET a = a + 10 WHERE a >= 1 ORDER BY a LIMIT 2 OFFSET 1")
-	t.exec(c, "DELETE FROM x WHERE a >= 10 ORDER BY a LIMIT 1 OFFSET 1")
 }
 
 func TestStringNull(T *testing.T) {
