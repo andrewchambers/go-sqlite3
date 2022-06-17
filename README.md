@@ -1,12 +1,6 @@
-[![GoDoc](https://godoc.org/github.com/bvinc/go-sqlite-lite/sqlite3?status.svg)](https://godoc.org/github.com/bvinc/go-sqlite-lite/sqlite3)
-[![Build Status](https://travis-ci.com/bvinc/go-sqlite-lite.svg?branch=master)](https://travis-ci.com/bvinc/go-sqlite-lite)
-[![Build status](https://ci.appveyor.com/api/projects/status/xk6fpk23wb5ppdhx?svg=true)](https://ci.appveyor.com/project/bvinc/go-sqlite-lite)
-[![Coverage Status](https://coveralls.io/repos/github/bvinc/go-sqlite-lite/badge.svg?branch=master)](https://coveralls.io/github/bvinc/go-sqlite-lite?branch=master)
-[![Go Report Card](https://goreportcard.com/badge/github.com/bvinc/go-sqlite-lite)](https://goreportcard.com/report/github.com/bvinc/go-sqlite-lite)
+# go-sqlite3
 
-# go-sqlite-lite
-
-go-sqlite-lite is a SQLite driver for the Go programming language.  It is designed with the following goals in mind.
+go-sqlite3 is a SQLite driver for the Go programming language.  It is designed with the following goals in mind.
 
 * **Lightweight** - Most methods should be little more than a small wrapper around SQLite C functions.
 * **Performance** - Where possible, methods should be available to allow for the highest performance possible.
@@ -35,7 +29,7 @@ Most database drivers include a layer to work nicely with the Go `database/sql` 
 ## Getting started
 
 ```go
-import "github.com/bvinc/go-sqlite-lite/sqlite3"
+import "github.com/bvinc/go-sqlite3/sqlite3"
 ```
 
 ### Acquiring a connection
@@ -242,7 +236,7 @@ No finalizers are used in this driver.  You are responsible for closing connecti
 
 * **Is it thread safe?**
 
-go-sqlite-lite is as thread safe as SQLite.  SQLite with this driver is compiled with `-DSQLITE_THREADSAFE=2` which is **Multi-thread** mode.  In this mode, SQLite can be safely used by multiple threads provided that no single database connection is used simultaneously in two or more threads.  This applies to goroutines.  A single database connection should not be used simultaneously between two goroutines.
+go-sqlite3 is as thread safe as SQLite.  SQLite with this driver is compiled with `-DSQLITE_THREADSAFE=2` which is **Multi-thread** mode.  In this mode, SQLite can be safely used by multiple threads provided that no single database connection is used simultaneously in two or more threads.  This applies to goroutines.  A single database connection should not be used simultaneously between two goroutines.
 
 It is safe to use separate connection instances concurrently, even if they are accessing the same database file. For example:
 ```go
