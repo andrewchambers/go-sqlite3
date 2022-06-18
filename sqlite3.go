@@ -32,7 +32,6 @@ package sqlite3
 #cgo !libsqlite3 CFLAGS: -DSQLITE_ENABLE_STAT4=1
 #cgo !libsqlite3 CFLAGS: -DSQLITE_ENABLE_UNLOCK_NOTIFY=1
 #cgo !libsqlite3 CFLAGS: -DSQLITE_ENABLE_UPDATE_DELETE_LIMIT=1
-#cgo !libsqlite3 CFLAGS: -DSQLITE_OMIT_AUTOINIT=1
 #cgo !libsqlite3 CFLAGS: -DSQLITE_OMIT_DEPRECATED=1
 #cgo !libsqlite3 CFLAGS: -DSQLITE_OMIT_PROGRESS_CALLBACK=1
 #cgo !libsqlite3 CFLAGS: -DSQLITE_OMIT_LOAD_EXTENSION=1
@@ -51,11 +50,6 @@ package sqlite3
 #include <assert.h>
 #include <pthread.h>
 #include "_sqlite3.h"
-
-// cgo doesn't handle variadic functions.
-static void set_temp_dir(const char *path) {
-	sqlite3_temp_directory = sqlite3_mprintf("%s", path);
-}
 
 // cgo doesn't handle SQLITE_{STATIC,TRANSIENT} pointer constants.
 static int bind_text(sqlite3_stmt *s, int i, const char *p, int n, int copy) {
@@ -234,7 +228,6 @@ import "C"
 import (
 	"fmt"
 	"io"
-	"os"
 	"time"
 	"unsafe"
 )
@@ -251,20 +244,6 @@ var commitRegistry = newRegistry()
 var rollbackRegistry = newRegistry()
 var updateRegistry = newRegistry()
 var authorizerRegistry = newRegistry()
-
-func init() {
-	// Initialize SQLite (required with SQLITE_OMIT_AUTOINIT).
-	// https://www.sqlite.org/c3ref/initialize.html
-	if rc := C.sqlite3_initialize(); rc != OK {
-		initErr = errStr(rc)
-		return
-	}
-
-	// Use the same temporary directory as Go.
-	// https://www.sqlite.org/c3ref/temp_directory.html
-	tmp := os.TempDir() + "\x00"
-	C.set_temp_dir(cStr(tmp))
-}
 
 // Conn is a connection handle, which may have multiple databases attached to it
 // by using the ATTACH SQL statement.
