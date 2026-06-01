@@ -205,10 +205,6 @@ Use the system sqlite3 library:
 
 `go build -tags libsqlite3`
 
-Enable the json1 extension:
-
-`go build -tags json1sqlite3`
-
 ## Advanced Features
 * Binding parameters to statements using SQLite named parameters.
 * SQLite Blob Incremental IO API.
@@ -273,4 +269,3 @@ If you've decided that pooling connections provides you with an advantage, it wo
 
 ## License
 This project is licensed under the BSD license.
-

@@ -46,8 +46,6 @@ package sqlite3
 #cgo !libsqlite3,darwin CFLAGS: -DHAVE_FDATASYNC=1
 #cgo !libsqlite3,darwin CFLAGS: -DHAVE_PREAD=1 -DHAVE_PWRITE=1
 
-#cgo !libsqlite3,json1sqlite3 CFLAGS: -DSQLITE_ENABLE_JSON1=1
-
 #include <assert.h>
 #include <pthread.h>
 #include "_sqlite3.h"

@@ -172,6 +172,24 @@ func TestLib(T *testing.T) {
 	}
 }
 
+func TestJSON(T *testing.T) {
+	t := begin(T)
+	defer t.skipRestIfFailed()
+
+	c := t.open(":memory:")
+	defer t.close(c)
+
+	s := t.prepare(c, `SELECT json_extract('{"a":[1,2,3]}', '$.a[1]')`)
+	defer t.close(s)
+	t.step(s, true)
+
+	var have int
+	t.scan(s, &have)
+	if have != 2 {
+		t.Fatalf("s.Scan() expected 2; got %d", have)
+	}
+}
+
 func TestCreate(T *testing.T) {
 	t := begin(T)
 	defer t.skipRestIfFailed()
