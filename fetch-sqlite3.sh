@@ -1,6 +1,6 @@
 set -eux
 
-URL=https://www.sqlite.org/2022/sqlite-amalgamation-3380500.zip
+URL=https://www.sqlite.org/2026/sqlite-amalgamation-3530100.zip
 
 rm -vrf sqlite-amalgamation-*
 curl -o sqlite-amalgamation.zip "$URL"
